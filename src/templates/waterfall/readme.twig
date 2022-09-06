@@ -1,0 +1,317 @@
+{% extends 'layout/base.twig' %}
+{% import 'macros/helpers.twig' as helpers %}
+
+{% block title %}
+    - 接入文档 -
+{% endblock %}
+
+{% block content %}
+    <div class="main-area article-area" data-v-373e5d92="" data-v-7924456a=""><article itemscope="itemscope" itemtype="http://schema.org/Article" data-entry-id="6844903830652469255" data-draft-id="6845076262621282311" data-original-type="0" class="article" style="" data-v-7924456a="" data-v-373e5d92=""><meta itemprop="url" content="https://juejin.im/post/6844903830652469255"> <meta itemprop="headline" content="php7中使用 xhprof 分析"> <meta itemprop="keywords" content="PHP"> <meta itemprop="datePublished" content="2019-04-25T11:35:40.000Z"> <meta itemprop="image" content="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-assets/icon/icon-128.png~tplv-t2oaga2asx-image.image"> <div itemprop="author" itemscope="itemscope" itemtype="http://schema.org/Person"><meta itemprop="name" content="小宇渣渣渣"> <meta itemprop="url" content="https://juejin.cn/user/2066737588876333"></div> <div itemprop="publisher" itemscope="itemscope" itemtype="http://schema.org/Organization"><meta itemprop="name" content="掘金"> <div itemprop="logo" itemscope="itemscope" itemtype="https://schema.org/ImageObject"><meta itemprop="url" content="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-assets/icon/icon-white-180.png~tplv-t2oaga2asx-image.image"> <meta itemprop="width" content="180"> <meta itemprop="height" content="180"></div></div> <h1 data-v-7924456a="" class="article-title">
+
+                <!----></h1> <div data-v-7924456a="" class="author-info-block">
+                <a data-v-7924456a="" href="/user/2066737588876333" target="_blank" rel="" class="avatar-link">
+
+                </a> <div data-v-7924456a="" class="author-info-box"><div data-v-7924456a="" class="author-name">
+                        <a data-v-b06a9b4e="" data-v-7924456a="" href="/user/2066737588876333" target="_blank" rel="" class="username username ellipsis">
+                            <span data-v-b06a9b4e="" class="name" style="max-width: 128px;">
+
+    </span> <span data-v-3de16c56="" data-v-b06a9b4e="" blank="true" class="rank">
+
+
+                            </span> <!----> <!----> </a></div> <div data-v-7924456a="" class="meta-box">
+                        <time data-v-7924456a="" datetime="2019-04-25T11:35:40.000Z" title="Thu Apr 25 2019 19:35:40 GMT+0800 (中国标准时间)" class="time">
+
+                        </time> <span data-v-7924456a="" class="views-count">
+
+                  </span> <!----></div> <!----></div> </div> <!----> <!----> <!----> <div data-v-7924456a="" class="article-content" itemprop="articleBody"><div class="markdown-body html"><style>.markdown-body{word-break:break-word;line-height:1.75;font-weight:400;font-size:16px;overflow-x:hidden;color:#333}.markdown-body h1,.markdown-body h2,.markdown-body h3,.markdown-body h4,.markdown-body h5,.markdown-body h6{line-height:1.5;margin-top:35px;margin-bottom:10px;padding-bottom:5px}.markdown-body h1{font-size:24px;margin-bottom:5px}.markdown-body h2,.markdown-body h3,.markdown-body h4,.markdown-body h5,.markdown-body h6{font-size:20px}.markdown-body h2{padding-bottom:12px;border-bottom:1px solid #ececec}.markdown-body h3{font-size:18px;padding-bottom:0}.markdown-body h6{margin-top:5px}.markdown-body p{line-height:inherit;margin-top:22px;margin-bottom:22px}.markdown-body img{max-width:100%}.markdown-body hr{border:none;border-top:1px solid #ddd;margin-top:32px;margin-bottom:32px}.markdown-body code{word-break:break-word;border-radius:2px;overflow-x:auto;background-color:#fff5f5;color:#ff502c;font-size:.87em;padding:.065em .4em}.markdown-body code,.markdown-body pre{font-family:Menlo,Monaco,Consolas,Courier New,monospace}.markdown-body pre{overflow:auto;position:relative;line-height:1.75}.markdown-body pre>code{font-size:12px;padding:15px 12px;margin:0;word-break:normal;display:block;overflow-x:auto;color:#333;background:#f8f8f8}.markdown-body a{text-decoration:none;color:#0269c8;border-bottom:1px solid #d1e9ff}.markdown-body a:active,.markdown-body a:hover{color:#275b8c}.markdown-body table{display:inline-block!important;font-size:12px;width:auto;max-width:100%;overflow:auto;border:1px solid #f6f6f6}.markdown-body thead{background:#f6f6f6;color:#000;text-align:left}.markdown-body tr:nth-child(2n){background-color:#fcfcfc}.markdown-body td,.markdown-body th{padding:12px 7px;line-height:24px}.markdown-body td{min-width:120px}.markdown-body blockquote{color:#666;padding:1px 23px;margin:22px 0;border-left:4px solid #cbcbcb;background-color:#f8f8f8}.markdown-body blockquote:after{display:block;content:""}.markdown-body blockquote>p{margin:10px 0}.markdown-body ol,.markdown-body ul{padding-left:28px}.markdown-body ol li,.markdown-body ul li{margin-bottom:0;list-style:inherit}.markdown-body ol li .task-list-item,.markdown-body ul li .task-list-item{list-style:none}.markdown-body ol li .task-list-item ol,.markdown-body ol li .task-list-item ul,.markdown-body ul li .task-list-item ol,.markdown-body ul li .task-list-item ul{margin-top:0}.markdown-body ol ol,.markdown-body ol ul,.markdown-body ul ol,.markdown-body ul ul{margin-top:3px}.markdown-body ol li{padding-left:6px}.markdown-body .contains-task-list{padding-left:0}.markdown-body .task-list-item{list-style:none}@media (max-width:720px){.markdown-body h1{font-size:24px}.markdown-body h2{font-size:20px}.markdown-body h3{font-size:18px}}</style>
+
+                    <h4 data-id="heading-3">1.1 安装扩展</h4>
+                    <pre><code lang="bash" class="hljs language-bash copyable">
+                       composer require guangzhonghedd01/xhgui-collector  //收集数据
+                       composer require alcaeus/mongo-php-adapter //链接mongodb 扩展
+                       代码还需跑跑有问题在修改，估计问题不大
+                        </code></pre><h4 data-id="heading-4">1.2 laravel框架接入 配置文件</h4>
+                    <pre><code lang="bash" class="hljs language-bash copyable">
+    .env 配置
+    XHGUI_MONGO_URI=10.10.32.20:27017//mogodb 地址10.10.32.20:27017 3套环境都用这个 选择不同的库
+    XHGUI_MONGO_DB=xhprof //dev test123  xhprofdev xhprof1 xhprof2 xhprof3
+    XHGUI_PROFILING_RATIO=100//收集比率 100代表100% 1代表1% 100次请求记录1次概率
+    XHGUI_EXECUTE_SECOND=0.5//响应时间 大于这个时间的才会被手机
+    XHGUI_PROFILING=enabled//开启收集
+    XHGUI_FILTER_VAR="env"
+    APP_NAME=cms// 项目名称 ehr xinchou laravel-order door
+
+    App\Http;     Kernel下
+     protected $middleware = [
+        // \App\Http\Middleware\TrustHosts::class,
+        \App\Http\Middleware\TrustProxies::class,
+        \Fruitcake\Cors\HandleCors::class,
+        \App\Http\Middleware\CheckForMaintenanceMode::class,
+        \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
+        \App\Http\Middleware\TrimStrings::class,
+//        \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
+        \App\Http\Middleware\Cors::class,
+        \App\Http\Middleware\OperationLog::class,
+        \App\Http\Middleware\Xhprof::class,//添加这行代码
+    ];
+
+                        </code></pre>
+
+                    <h4 data-id="heading-5">1.3 laravel框架  config目录添加xhgui.php</h4>
+                    <pre><code lang="bash" class="hljs language-bash copyable">
+/**
+* Default configuration for Xhgui
+*/
+
+return [
+    'debug'           => env('APP_DEBUG', false),
+    'mode'            => env('APP_NAME', 'test'),
+    'filter_var'      => empty(env('XHGUI_FILTER_VAR', '')) ?
+        [] : explode(',', env('XHGUI_FILTER_VAR')),
+    'save.handler'    => 'mongodb',
+    'db.host'         => sprintf('mongodb://%s', env('XHGUI_MONGO_URI', '127.0.0.1:27017')),//mongodb 数据
+    'db.db'           => env('XHGUI_MONGO_DB', 'xhprof'),//mongodb 数据
+    // Allows you to pass additional options like replicaSet to MongoClient.
+    // 'username', 'password' and 'db' (where the user is added)
+    'db.options'      => ['ssl' => in_array(env('APP_NAME'), ['stg', 'prod']) ? true : false],
+    'templates.path'  => dirname(__DIR__) . '/src/templates',
+    'date.format'     => 'M jS H:i:s',
+    'detail.count'    => 6,
+    'page.limit'      => 25,
+    'profiler.enable' => (int)env('XHGUI_PROFILING_RATIO', 0),//采集开关  采集率
+    'profiler.options' => ['extension'],
+    'profiler.second' => env('XHGUI_EXECUTE_SECOND', 0),// 采集执行时间大于这个的数  默认0  建议设置成0.5秒
+];
+                        </code></pre>
+                    <h4 data-id="heading-5">1.4 laravel框架  app-Middleware 添加两文件 Xhprof.php ImportXhgui.php 下面是Xhprof.php</h4>
+                    <pre><code lang="bash" class="hljs language-bash copyable">
+namespace App\Http\Middleware;
+
+use Closure;
+
+class Xhprof
+{
+    /**
+     * Handle an incoming request.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @param  \Closure                 $next
+     *
+     * @return mixed
+     */
+    public function handle($request, Closure $next)
+    {
+
+        ImportXhgui::laravel();
+
+        return $next($request);
+    }
+
+}
+                        </code></pre>
+
+                    <h4 data-id="heading-5">1.4 laravel框架    下面是ImportXhgui.php</h4>
+                    <pre><code lang="bash" class="hljs language-bash copyable">
+
+namespace App\Http\Middleware;
+
+use Closure;
+use Guangzhong\Xhgui\Config;
+use Guangzhong\Xhgui\Import;
+use Guangzhong\Xhgui\Saver;
+use Guangzhong\Xhgui\Util;
+
+class ImportXhgui extends Import
+{
+    public function __construct()
+    {
+        if (!\extension_loaded('xhprof')
+            && !\extension_loaded('uprofiler')
+            && !\extension_loaded('tideways')
+            && !\extension_loaded('tideways_xhprof')
+        ) {
+            error_log('xhgui - either extension xhprof, uprofiler, tideways or tideways_xhprof must be loaded');
+
+            return;
+        }
+    }
+
+    /**
+     * laravel 接入
+     */
+    public static function laravel()
+    {
+        Config::load(config('xhgui'));
+        if ((!\extension_loaded('mongo')
+                && !\extension_loaded('mongodb'))
+            && Config::read('save.handler') === 'mongodb') {
+            error_log('xhgui - extension mongo not loaded');
+
+            return;
+        }
+
+        if (!Config::shouldRun()) {
+            return;
+        }
+
+        if (!isset($_SERVER['REQUEST_TIME_FLOAT'])) {
+            $_SERVER['REQUEST_TIME_FLOAT'] = microtime(true);
+        }
+        $options = Config::read('profiler.options');
+
+        if (\extension_loaded('uprofiler')) {
+            uprofiler_enable(UPROFILER_FLAGS_CPU | UPROFILER_FLAGS_MEMORY, $options);
+        } else if (\extension_loaded('tideways')) {
+            tideways_enable(TIDEWAYS_FLAGS_CPU | TIDEWAYS_FLAGS_MEMORY);
+            tideways_span_create('sql');
+        } elseif (\extension_loaded('tideways_xhprof')) {
+            tideways_xhprof_enable(TIDEWAYS_XHPROF_FLAGS_CPU | TIDEWAYS_XHPROF_FLAGS_MEMORY);
+        } else {
+            if (PHP_MAJOR_VERSION === 5 && PHP_MINOR_VERSION > 4) {
+                xhprof_enable(XHPROF_FLAGS_CPU | XHPROF_FLAGS_MEMORY | XHPROF_FLAGS_NO_BUILTINS, $options);
+            } else {
+                xhprof_enable(XHPROF_FLAGS_CPU | XHPROF_FLAGS_MEMORY, $options);
+            }
+        }
+
+        register_shutdown_function(
+            function () {
+                if (\extension_loaded('uprofiler')) {
+                    $data['profile'] = uprofiler_disable();
+                } else if (\extension_loaded('tideways_xhprof')) {
+                    $data['profile'] = tideways_xhprof_disable();
+                } else if (\extension_loaded('tideways')) {
+                    $data['profile'] = tideways_disable();
+                    $sqlData = tideways_get_spans();
+                    $data['sql'] = array();
+                    if (isset($sqlData[1])) {
+                        foreach ($sqlData as $val) {
+                            if (isset($val['n']) && $val['n'] === 'sql' && isset($val['a']) && isset($val['a']['sql'])) {
+                                $_time_tmp = (isset($val['b'][0]) && isset($val['e'][0])) ? ($val['e'][0] - $val['b'][0]) : 0;
+                                if (!empty($val['a']['sql'])) {
+                                    $data['sql'][] = array(
+                                        'time' => $_time_tmp,
+                                        'sql' => $val['a']['sql']
+                                    );
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    $data['profile'] = xhprof_disable();
+                }
+
+                if (!empty($data['profile'])){
+                    $profile = [];
+                    foreach($data['profile'] as $key => $value) {
+                        $profile[strtr($key, ['.' => '_'])] = $value;
+                    }
+
+                    $data['profile'] = $profile;
+                }
+
+                // ignore_user_abort(true) allows your PHP script to continue executing, even if the user has terminated their request.
+                // Further Reading: http://blog.preinheimer.com/index.php?/archives/248-When-does-a-user-abort.html
+                // flush() asks PHP to send any data remaining in the output buffers. This is normally done when the script completes, but
+                // since we're delaying that a bit by dealing with the xhprof stuff, we'll do it now to avoid making the user wait.
+                ignore_user_abort(true);
+                flush();
+
+                $uri = array_key_exists('REQUEST_URI', $_SERVER)
+                    ? $_SERVER['REQUEST_URI']
+                    : null;
+                if (empty($uri) && isset($_SERVER['argv'])) {
+                    $cmd = basename($_SERVER['argv'][0]);
+                    $uri = $cmd . ' ' . implode(' ', array_slice($_SERVER['argv'], 1));
+                }
+
+                $time = array_key_exists('REQUEST_TIME', $_SERVER)
+                    ? $_SERVER['REQUEST_TIME']
+                    : time();
+
+                // In some cases there is comma instead of dot
+                $delimiter = (strpos($_SERVER['REQUEST_TIME_FLOAT'], ',') !== false) ? ',' : '.';
+                $requestTimeFloat = explode($delimiter, $_SERVER['REQUEST_TIME_FLOAT']);
+                if (!isset($requestTimeFloat[1])) {
+                    $requestTimeFloat[1] = 0;
+                }
+
+                $requestTs = ['sec' => $time, 'usec' => 0];
+                $requestTsMicro = ['sec' => $requestTimeFloat[0], 'usec' => $requestTimeFloat[1]];
+
+                // 执行时间 转换成 有待测试
+                $sec = round((microtime(true)-$_SERVER['REQUEST_TIME_FLOAT'])*1000,2)/1000;
+                // $sec = $main = $data['profile']['main()']['wt']/1000;dd();
+                $set_time = Config::read('profiler.second');
+                if ($sec < $set_time) {
+                    return;
+                }
+                // if (isset($requestTsMicro['usec'])) {
+                //     //执行时间转换成秒
+                //     $sec = $requestTsMicro['usec'] / 1000000;
+                //     $set_time = Config::read('profiler.second');
+                //     if ($sec < $set_time) {
+                //         return;
+                //     }
+                // }
+
+                //过滤敏感数据信息，比如密码之类的
+                $filterVar = Config::read('filter_var');
+                foreach ($filterVar as $v) {
+                    if (isset($_SERVER[$v])) {
+                        unset($_SERVER[$v]);
+                    }
+                }
+
+                $data['meta'] = [
+                    'url' => $uri,
+                    'SERVER' => $_SERVER,
+                    'get' => $_GET,
+                    // 'env'              => '', //去掉env信息
+                    'simple_url' => Util::simpleUrl($uri),
+                    'request_ts' => $requestTs,
+                    'request_ts_micro' => $requestTsMicro,
+                    'request_date' => date('Y-m-d', $time),
+                ];
+
+                $data['project'] = Config::read('mode');
+
+                try {
+                    $config = Config::all();
+                    $config += ['db.options' => []];
+
+                    $saver = Saver::factory($config);
+                    $saver->save($data);
+
+                } catch (\Exception $e) {
+                    error_log('xhgui - ' . $e->getMessage());
+                }
+            }
+        );
+    }
+}
+
+                        </code></pre>
+
+
+        </div></div> <div data-v-4fa94e66="" class="collect-action action"><div data-v-4fa94e66="" class="action-title-box">
+                    </div></div> <!----></div></div>
+
+{% endblock %}
+
+{% block jsfoot %}
+    <script type="text/javascript" src="{{ static('js/waterfall.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            {% set query = {
+                remote_addr: search.remote_addr,
+                request_start: search.request_start,
+                request_end: search.request_end
+            } %}
+            Xhgui.waterfall('#waterfall', {
+                dataUrl: '{{ url("waterfall.data", query)|raw }}',
+                baseUrl: '{{ url("run.view") }}'
+            });
+        });
+    </script>
+{% endblock %}
